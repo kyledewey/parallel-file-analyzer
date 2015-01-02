@@ -1,1 +1,1 @@
-consumer_base_command: ./test_command.sh
+consumer_base_command: ./test/test_command.sh
