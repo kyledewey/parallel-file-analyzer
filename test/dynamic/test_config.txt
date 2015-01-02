@@ -1,0 +1,3 @@
+producer_command: ./test/dynamic/test_producer.sh
+consumer_save_file_to: garbage/
+consumer_base_command: ./test/dynamic/test_consumer.sh
