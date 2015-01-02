@@ -1,0 +1,1 @@
+consumer_base_command: ./test_command.sh
