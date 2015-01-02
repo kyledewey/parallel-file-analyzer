@@ -1,2 +1,7 @@
+# Emacs temp files
 *~
 \#*\#
+
+# SBT temp files
+project
+target
