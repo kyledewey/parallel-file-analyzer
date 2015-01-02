@@ -26,9 +26,9 @@ class StaticSMP(command: Seq[String],
                 numConsumers: Int,
                 files: Seq[String]) extends BaseSMP[File](1, numConsumers) {
   val indexedFiles = files.map(s => new File(s)).toIndexedSeq
-  val producerMaker: MultiStreamProducerInterface[File] => Producer[File] =
+  def producerMaker: MultiStreamProducerInterface[File] => Producer[File] =
     stream => new ListProducer[File](stream, indexedFiles)
-  val consumerMaker: MultiStreamConsumerInterface[File] => Consumer[File] = 
+  def consumerMaker: MultiStreamConsumerInterface[File] => Consumer[File] = 
     stream => new FileConsumerIgnoreOutput(command, stream)
 }
     
