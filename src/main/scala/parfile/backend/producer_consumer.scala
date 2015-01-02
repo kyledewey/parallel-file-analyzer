@@ -1,4 +1,4 @@
-package parfile
+package parfile.backend
 
 abstract class Producer[T](stream: MultiStreamProducerInterface[T]) {
   // Produces an item.  Produces None if there is nothing

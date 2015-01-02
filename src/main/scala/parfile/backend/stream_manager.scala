@@ -1,4 +1,4 @@
-package parfile
+package parfile.backend
 
 object ParallelTask {
   // returns the thread that is running it
