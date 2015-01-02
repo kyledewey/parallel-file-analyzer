@@ -15,6 +15,22 @@ abstract class Producer[T](stream: MultiStreamProducerInterface[T]) {
   }
 }
 
+class ListProducer[T](stream: MultiStreamProducerInterface[T],
+                      list: IndexedSeq[T]) extends Producer(stream) {
+  private val len = list.size
+  private var index = 0
+
+  def produce(): Option[T] = {
+    if (index < len) {
+      val retval = Some(list(index))
+      index += 1
+      retval
+    } else {
+      None
+    }
+  }
+}
+
 abstract class Consumer[T](stream: MultiStreamConsumerInterface[T]) {
   // Consumes an item.
   def consume(item: T): Unit

@@ -9,8 +9,16 @@ object StaticSMPConfigFile {
   val splitCommand: String => Seq[String] =
     s => s.split(" ").toSeq
 
+  def toNonNegativeInt(s: String): Int = {
+    val base = s.toInt
+    if (base < 0) {
+      throw new NumberFormatException("Integer must be non-negative")
+    }
+    base
+  }
+
   val converters: Map[String, String => Any] =
-    Map(NUM_CORES -> ((s: String) => s.toInt),
+    Map(NUM_CORES -> (toNonNegativeInt _),
         CONSUMER_BASE_COMMAND -> splitCommand)
 
   val defaults: Map[String, Any] =
@@ -19,12 +27,18 @@ object StaticSMPConfigFile {
 }
 
 trait NumCores extends ConfigFileInterface {
-  def numCores(): Int =
-    getEntry(StaticSMPConfigFile.NUM_CORES).asInstanceOf[Int]
+  lazy val numCores: Int = {
+    val base = getEntry(StaticSMPConfigFile.NUM_CORES).asInstanceOf[Int]
+    if (base == 0) {
+      Runtime.getRuntime.availableProcessors
+    } else {
+      base
+    }
+  }
 }
 
 trait ConsumerBaseCommand extends ConfigFileInterface {
-  def consumerBaseCommand(): Seq[String] =
+  lazy val consumerBaseCommand: Seq[String] =
     getEntry(StaticSMPConfigFile.CONSUMER_BASE_COMMAND).asInstanceOf[Seq[String]]
 }
 
@@ -45,9 +59,9 @@ object DynamicSMPConfigFile {
 class DynamicSMPConfigFile(file: File)
 extends ConfigFile(file, DynamicSMPConfigFile.converters, DynamicSMPConfigFile.defaults) with NumCores with ConsumerBaseCommand {
   import DynamicSMPConfigFile._
-  def producerCommand(): Seq[String] =
+  lazy val producerCommand: Seq[String] =
     getEntry(PRODUCER_COMMAND).asInstanceOf[Seq[String]]
 
-  def consumerSaveFileTo(): String =
+  lazy val consumerSaveFileTo: String =
     getEntry(CONSUMER_SAVE_FILE_TO).asInstanceOf[String]
 }

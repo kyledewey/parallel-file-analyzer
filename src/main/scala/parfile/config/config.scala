@@ -3,6 +3,7 @@ package parfile.config
 import java.io.File
 
 case class InvalidEntryException(msg: String) extends Exception(msg)
+case class MissingEntriesException(msg: String) extends Exception(msg)
 
 object ConfigFile {
   val id: String => Any = s => s
@@ -84,6 +85,13 @@ class ConfigFile(val file: File,
           }
          }).getOrElse(res))
     
-    defaults ++ beforeDefaults
+    val retval = defaults ++ beforeDefaults
+
+    val missingEntries = converters.keys.filterNot(retval.contains)
+    if (missingEntries.nonEmpty) {
+      throw MissingEntriesException("Missing keys: " + missingEntries.mkString(", "))
+    }
+
+    retval
   }
 } // ConfigFile
