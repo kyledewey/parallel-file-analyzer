@@ -77,14 +77,14 @@ As for the legal configuration entries, they are described below:
     <td>N/A</td>
   </tr>
 
-  <td>
+  <tr>
     <td><code>num_producers</code></td>
     <td>
       The number of producer threads to run.  Note that each producer thread runs the same
       <code>producer_command</code>.  0 indicates the number of available cores.  Error if negative.
     </td>
     <td>1</td>
-  </td>
+  </tr>
   
   <tr>
     <td><code>consumer_save_file_to</code></td>
