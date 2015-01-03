@@ -18,7 +18,7 @@ object ParallelTask {
 // Takes a series of Producers which have not yet been started,
 // along with the stream that they are to attach to.  This
 // is used to determine when to shutdown the stream.
-class StreamManager[T](
+class StreamManager[T <: AnyRef](
   producerMakers: Seq[MultiStreamProducerInterface[T] => Producer[T]],
   consumerMakers: Seq[MultiStreamConsumerInterface[T] => Consumer[T]],
   stream: MultiStream[T]) {

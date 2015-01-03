@@ -2,7 +2,7 @@ package parfile
 
 import parfile.backend._
 
-abstract class BaseSMP[T](numProducers: Int, numConsumers: Int) {
+abstract class BaseSMP[T <: AnyRef](numProducers: Int, numConsumers: Int) {
   assert(numProducers > 0)
   assert(numConsumers > 0)
 

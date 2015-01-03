@@ -1,6 +1,6 @@
 package parfile.backend
 
-abstract class Producer[T](stream: MultiStreamProducerInterface[T]) {
+abstract class Producer[T <: AnyRef](stream: MultiStreamProducerInterface[T]) {
   // Produces an item.  Produces None if there is nothing
   // left to produce.  Returning None indicates that there
   // will never be anything left to produce
@@ -15,8 +15,8 @@ abstract class Producer[T](stream: MultiStreamProducerInterface[T]) {
   }
 }
 
-class ListProducer[T](stream: MultiStreamProducerInterface[T],
-                      list: IndexedSeq[T]) extends Producer(stream) {
+class ListProducer[T <: AnyRef](stream: MultiStreamProducerInterface[T],
+                                list: IndexedSeq[T]) extends Producer(stream) {
   private val len = list.size
   private var index = 0
 
@@ -31,7 +31,7 @@ class ListProducer[T](stream: MultiStreamProducerInterface[T],
   }
 }
 
-abstract class Consumer[T](stream: MultiStreamConsumerInterface[T]) {
+abstract class Consumer[T <: AnyRef](stream: MultiStreamConsumerInterface[T]) {
   // Consumes an item.
   def consume(item: T): Unit
 
