@@ -10,7 +10,7 @@ This could have been written as an extension to [`SMP-Parallel-Execution-Framewo
 
 # Usage for a Static Set of Files #
 
-Invoke like so:
+For reasonably small lists of files, invoke like so:
 
 ```console
 sbt "run-main parfile.StaticSMP config.txt file1 file2 file3"
@@ -23,6 +23,14 @@ The configuration file has a `key: value` format.  For example:
 foo: bar
 multi_space: this has multiple things
 ```
+
+For larger lists of files where there would be too many command-line arguments, invoke like so:
+
+```console
+sbt "run-main parfile.DirGlobSMP config.txt someDir/ *.txt
+```
+
+...where `config.txt` is a configuration file, `someDir/` is a directory containing files to process, and `*.txt` is a file glob denoting files to process (in this case, all files ending in `.txt`).
 
 As for the legal configuration entries, they are described below:
 
