@@ -68,23 +68,14 @@ class FileProducer(
 
 // Executes the given command, which is assumed to take a file in the
 // last position.
-abstract class FileConsumer(
+class FileConsumer(
   val command: Seq[String],
   stream: MultiStreamConsumerInterface[File]) extends Consumer(stream) {
   
-  // Consumes the given file.  Automatically deletes it once done
+  // Consumes the given file.
   def consume(file: File) {
     val fileString = file.toString
 
-    consumeFileOutput(
-      file,
-      new CommandWrapper(command ++ Seq(fileString)).readOutputToCompletion())
-
-    if (!file.delete()) {
-      println("WARNING: failed to delete file: '" + fileString + "'")
-    }
+    new CommandWrapper(command ++ Seq(fileString)).readOutputToCompletion()
   }
-
-  // Take the file we are consuming along with the output of processing it
-  def consumeFileOutput(file: File, output: Seq[String]): Unit
 }

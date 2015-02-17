@@ -8,8 +8,6 @@ In contrast to [`SMP-Parallel-Execution-Framework`](https://github.com/kyledewey
 Ultimately, this should replace [`SMP-Parallel-Execution-Framework`](https://github.com/kyledewey/SMP-Parallel-Execution-Framework).
 This could have been written as an extension to [`SMP-Parallel-Execution-Framework`](https://github.com/kyledewey/SMP-Parallel-Execution-Framework), but that is so needlessly complex with mostly boilerplate that I want to start fresh.
 
-**When the processing of a file has been completed, the original file is deleted.**
-
 # Usage for a Static Set of Files #
 
 Invoke like so:
@@ -85,18 +83,7 @@ As for the legal configuration entries, they are described below:
     </td>
     <td>1</td>
   </tr>
-  
-  <tr>
-    <td><code>consumer_save_file_to</code></td>
-    <td>
-      Directory where to save input files if the consumer generated any output (to either standard output
-      or standard error) while processing the given input file.  By convention, it is assumed that if
-      any output was generated, then there must have been something wrong with the processing of the file,
-      and so it is saved for later debugging purposes.
-    </td>
-    <td>N/A</td>
-  </tr>
-  
+    
   <tr>
     <td><code>consumer_base_command</code></td>
     <td>Command to run on each file.  Assumed that the file will be the last parameter.</td>

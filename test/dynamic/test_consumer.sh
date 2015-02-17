@@ -1,5 +1,5 @@
 #!/bin/sh
 
 cat $1 >> all.txt
-echo hi
-
+cp $1 garbage/
+rm $1

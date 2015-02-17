@@ -51,13 +51,11 @@ extends ConfigFile(file, StaticSMPConfigFile.converters, StaticSMPConfigFile.def
 
 object DynamicSMPConfigFile {
   val PRODUCER_COMMAND = "producer_command"
-  val CONSUMER_SAVE_FILE_TO = "consumer_save_file_to"
   val NUM_PRODUCERS = "num_producers"
   val NUM_CONSUMERS = "num_consumers"
 
   val converters: Map[String, String => Any] =
     Map(PRODUCER_COMMAND -> splitCommand,
-        CONSUMER_SAVE_FILE_TO -> ConfigFile.id,
         StaticSMPConfigFile.CONSUMER_BASE_COMMAND -> splitCommand,
         NUM_PRODUCERS -> (toNonNegativeInt _),
         NUM_CONSUMERS -> (toNonNegativeInt _))
@@ -73,9 +71,6 @@ extends ConfigFile(file, DynamicSMPConfigFile.converters, DynamicSMPConfigFile.d
 
   lazy val producerCommand: Seq[String] =
     getEntry(PRODUCER_COMMAND).asInstanceOf[Seq[String]]
-
-  lazy val consumerSaveFileTo: String =
-    getEntry(CONSUMER_SAVE_FILE_TO).asInstanceOf[String]
 
   lazy val numProducers: Int =
     asNumCores(getEntry(NUM_PRODUCERS).asInstanceOf[Int])

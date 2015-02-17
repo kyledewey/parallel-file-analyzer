@@ -8,13 +8,12 @@ import parfile.config._
 class DynamicSMP(producerCommand: Seq[String],
                  numProducers: Int,
                  consumerCommand: Seq[String],
-                 numConsumers: Int,
-                 whereToSave: String) extends BaseSMP[File](numProducers, numConsumers) {
+                 numConsumers: Int) extends BaseSMP[File](numProducers, numConsumers) {
   def producerMaker: MultiStreamProducerInterface[File] => Producer[File] =
     stream => new FileProducer(producerCommand, stream)
 
   def consumerMaker: MultiStreamConsumerInterface[File] => Consumer[File] = 
-    stream => new FileConsumerSaveIfOutputNonEmpty(consumerCommand, stream, whereToSave)
+    stream => new FileConsumer(consumerCommand, stream)
 }
 
 object DynamicSMP {
@@ -27,8 +26,7 @@ object DynamicSMP {
       new DynamicSMP(config.producerCommand,
                      config.numProducers,
                      config.consumerBaseCommand,
-                     config.numConsumers,
-                     config.consumerSaveFileTo).start()
+                     config.numConsumers).start()
     }
   }
 }

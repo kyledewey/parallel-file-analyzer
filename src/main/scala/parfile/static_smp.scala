@@ -11,7 +11,7 @@ class StaticSMP(command: Seq[String],
   def producerMaker: MultiStreamProducerInterface[File] => Producer[File] =
     stream => new ListProducer[File](stream, files)
   def consumerMaker: MultiStreamConsumerInterface[File] => Consumer[File] = 
-    stream => new FileConsumerIgnoreOutput(command, stream)
+    stream => new FileConsumer(command, stream)
 }
     
 object StaticSMP {
