@@ -1,5 +1,8 @@
 package parfile.backend
 
+import java.io.File
+import java.nio.file.{DirectoryStream, Files, FileSystems}
+
 abstract class Producer[T <: AnyRef](stream: MultiStreamProducerInterface[T]) {
   // Produces an item.  Produces None if there is nothing
   // left to produce.  Returning None indicates that there
@@ -28,6 +31,39 @@ class ListProducer[T <: AnyRef](stream: MultiStreamProducerInterface[T],
     } else {
       None
     }
+  }
+}
+
+// -dir: Directory to iterative over
+// -extension: extension for files of interest
+//
+// A thread-safe iterator over a directory
+class DirectoryIterator(dir: String, extension: String) {
+  private val stream = 
+    Files.newDirectoryStream(
+      FileSystems.getDefault.getPath(dir),
+      extension)
+  private val iterator = stream.iterator
+
+  def nextFile(): Option[File] = {
+    try {
+      Some(iterator.next.toFile)
+    } catch {
+      case _: NoSuchElementException => {
+	stream.close()
+	None
+      }
+    }
+  }
+}
+
+class FileGlobProducer(stream: MultiStreamProducerInterface[File],
+		       dirName: String,
+		       extension: String) extends Producer(stream) {
+  private val iterator = new DirectoryIterator(dirName, extension)
+
+  def produce(): Option[File] = {
+    iterator.nextFile()
   }
 }
 
